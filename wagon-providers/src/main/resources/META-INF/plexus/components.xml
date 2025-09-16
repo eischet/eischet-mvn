@@ -1,0 +1,16 @@
+<!-- src/main/resources/META-INF/plexus/components.xml -->
+<component-set>
+    <components>
+        <component>
+            <role>org.apache.maven.wagon.Wagon</role>
+            <!-- "ftps" ist der Protokoll-Schema-Name in <url>ftps://...</url> -->
+            <role-hint>eischet-ftps</role-hint>
+            <implementation>com.eischet.mvn.wagon.FtpsWagon</implementation>
+            <instantiation-strategy>per-lookup</instantiation-strategy>
+            <description>
+                FTPS (explicit TLS) Wagon using Apache Commons Net, forked
+                from the FtpsWagon imlementation that will be removed in Maven 4
+            </description>
+        </component>
+    </components>
+</component-set>
