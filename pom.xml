@@ -11,12 +11,67 @@
 
     <groupId>com.eischet.mvn</groupId>
     <artifactId>eischet-mvn</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${revision}</version>
 
     <properties>
+        <revision>1.0.0</revision>
+
+        <!-- this project needs itself to deploy, which is tricky... therefore, use an older version to upload myself: -->
+        <previous>1.0.0-SNAPSHOT</previous>
+
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>com.eischet.mvn</groupId>
+                <artifactId>wagon-providers</artifactId>
+                <version>${previous}</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <!-- required for ${revision} to work in deployed/installed POMs generated from this build, and a good idea anyways -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.7.2</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>eischet-public-releases</id>
+            <url>eischet-ftps:https://mvn.eischet.net/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>eischet-public-snapshots</id>
+            <url>eischet-ftps:https://mvn.eischet.net/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>

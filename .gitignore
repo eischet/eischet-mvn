@@ -35,3 +35,6 @@ build/
 ### Mac OS ###
 .DS_Store
 
+# maven flatten plugin artifacts:
+.flattened-pom.xml
+wagon-providers/.flattened-pom.xml

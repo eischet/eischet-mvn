@@ -6,19 +6,12 @@
     <parent>
         <groupId>com.eischet.mvn</groupId>
         <artifactId>eischet-mvn</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>wagon-providers</artifactId>
-    <name>Apache Maven Wagon :: Providers :: FTP Provider</name>
+    <name>Fork of the Apache Wagon FTP/FTPS provider</name>
     <description>Wagon provider that gets and puts artifacts from and to remote server using FTP protocol</description>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
 
     <dependencies>
         <dependency>
@@ -79,24 +72,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>deploy-internal</id>
-            <distributionManagement>
-                <repository>
-                    <id>repo-eischet-releases</id>
-                    <name>Eischet Software Repository</name>
-                    <url>https://repo.srv.eischet.net/releases</url>
-                </repository>
-                <snapshotRepository>
-                    <id>repo-eischet-snapshots</id>
-                    <name>Eischet Software Repository</name>
-                    <url>https://repo.srv.eischet.net/snapshots</url>
-                </snapshotRepository>
-
-            </distributionManagement>
-        </profile>
-    </profiles>
 
 </project>

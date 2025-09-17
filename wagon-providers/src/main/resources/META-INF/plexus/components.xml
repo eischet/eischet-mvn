@@ -9,7 +9,9 @@
             <instantiation-strategy>per-lookup</instantiation-strategy>
             <description>
                 FTPS (explicit TLS) Wagon using Apache Commons Net, forked
-                from the FtpsWagon imlementation that will be removed in Maven 4
+                from the FtpsWagon implementation that will be removed in Maven 4,
+                with the added ability to override the actual upload path in settings.xml
+                and keep a public URL in the pom
             </description>
         </component>
     </components>
