@@ -65,6 +65,13 @@ public class FtpWagon extends StreamWagon {
     @Configuration(name = "uploadUrl", value = "")
     protected String uploadUrl;
 
+    @Configuration(name = "uploadUsername", value = "")
+    protected String uploadUsername;
+
+    @Configuration(name = "uploadPassword", value = "")
+    protected String uploadPassword;
+
+
     public boolean isPassiveMode() {
         return passiveMode;
     }
@@ -87,7 +94,15 @@ public class FtpWagon extends StreamWagon {
         // removed: they were pulling in user.name. If the username is not set, the password is not set either usually, so don't bother trying this.
 
         String username = authInfo.getUserName();
+        if (uploadUsername != null && !uploadUsername.isEmpty()) {
+            log.info("using private upload username {} instead of configured username {}", uploadUsername, username);
+            username = uploadUsername;
+        }
         String password = authInfo.getPassword();
+        if (uploadPassword != null && !uploadPassword.isEmpty()) {
+            log.info("using private upload password instead of configured password");
+            password = uploadPassword;
+        }
 
         if (username == null) {
             throw new AuthenticationException("Username not specified for repository " + myRepository.getId());

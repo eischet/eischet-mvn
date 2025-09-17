@@ -7,6 +7,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>wagon-providers</module>
+        <module>repo-selector</module>
     </modules>
 
     <groupId>com.eischet.mvn</groupId>
@@ -14,7 +15,7 @@
     <version>${revision}</version>
 
     <properties>
-        <revision>1.0.0</revision>
+        <revision>1.0.2-SNAPSHOT</revision>
 
         <!-- this project needs itself to deploy, which is tricky... therefore, use an older version to upload myself: -->
         <previous>1.0.0-SNAPSHOT</previous>
@@ -23,9 +24,24 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+
+        <deps.autoservice>1.1.1</deps.autoservice>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>eischet-public-releases</id>
+            <url>eischet-ftps:https://mvn.eischet.net/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>eischet-public-snapshots</id>
+            <url>eischet-ftps:https://mvn.eischet.net/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <build>
+
         <extensions>
             <extension>
                 <groupId>com.eischet.mvn</groupId>
@@ -33,6 +49,7 @@
                 <version>${previous}</version>
             </extension>
         </extensions>
+
         <plugins>
             <plugin>
                 <!-- required for ${revision} to work in deployed/installed POMs generated from this build, and a good idea anyways -->
@@ -61,17 +78,71 @@
                 </executions>
             </plugin>
         </plugins>
+
     </build>
 
-    <distributionManagement>
-        <repository>
-            <id>eischet-public-releases</id>
-            <url>eischet-ftps:https://mvn.eischet.net/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>eischet-public-snapshots</id>
-            <url>eischet-ftps:https://mvn.eischet.net/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-provider-api</artifactId>
+                <version>3.5.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.auto.service</groupId>
+                <artifactId>auto-service-annotations</artifactId>
+                <version>${deps.autoservice}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>3.12.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.ftpserver</groupId>
+                <artifactId>ftpserver-core</artifactId>
+                <version>1.2.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>2.0.17</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>2.0.17</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.20.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-component-annotations</artifactId>
+                <version>2.1.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.apache.maven.resolver</groupId>
+                <artifactId>maven-resolver-api</artifactId>
+                <version>1.9.18</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.maven.resolver</groupId>
+                <artifactId>maven-resolver-spi</artifactId>
+                <version>1.9.18</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
 
 </project>
