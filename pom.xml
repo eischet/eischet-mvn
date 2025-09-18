@@ -4,21 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.eischet</groupId>
+        <artifactId>eischet-root-public</artifactId>
+        <version>1.0.2</version>
+    </parent>
+
     <packaging>pom</packaging>
-    <modules>
-        <module>wagon-providers</module>
-        <module>repo-selector</module>
-    </modules>
 
     <groupId>com.eischet.mvn</groupId>
     <artifactId>eischet-mvn</artifactId>
     <version>${revision}</version>
 
+
     <properties>
-        <revision>1.0.2-SNAPSHOT</revision>
+        <revision>1.0.3</revision>
 
         <!-- this project needs itself to deploy, which is tricky... therefore, use an older version to upload myself: -->
-        <previous>1.0.0-SNAPSHOT</previous>
+        <previous>1.0.2-SNAPSHOT</previous>
 
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -29,16 +32,10 @@
         <deps.autoservice>1.1.1</deps.autoservice>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>eischet-public-releases</id>
-            <url>eischet-ftps:https://mvn.eischet.net/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>eischet-public-snapshots</id>
-            <url>eischet-ftps:https://mvn.eischet.net/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <modules>
+        <module>wagon-providers</module>
+        <module>repo-selector</module>
+    </modules>
 
     <build>
 
@@ -49,36 +46,6 @@
                 <version>${previous}</version>
             </extension>
         </extensions>
-
-        <plugins>
-            <plugin>
-                <!-- required for ${revision} to work in deployed/installed POMs generated from this build, and a good idea anyways -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <version>1.7.2</version>
-                <configuration>
-                    <updatePomFile>true</updatePomFile>
-                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-
     </build>
 
     <dependencyManagement>
@@ -144,5 +111,20 @@
 
         </dependencies>
     </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>eischet-public-releases</id>
+            <url>https://mvn.eischet.net/public/releases</url>
+            <snapshots><enabled>false</enabled></snapshots>
+            <releases><enabled>true</enabled></releases>
+        </repository>
+        <repository>
+            <id>eischet-public-snapshots</id>
+            <url>https://mvn.eischet.net/public/snapshots</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>false</enabled></releases>
+        </repository>
+    </repositories>
 
 </project>
